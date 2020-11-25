@@ -1,6 +1,10 @@
 # RabbitMQ w/ .NET
 
-Just a playground application...
+Currently a playground application for learning RabbitMQ, will add more when I get time.
+
+To run;
+- Install Docker.
+- Navigate to the repository root and run _docker-compose up_
 
 Resources;
 
