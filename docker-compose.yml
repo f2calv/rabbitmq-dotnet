@@ -1,0 +1,62 @@
+#clear out **absolutely everything**...
+#docker system prune -a -f --volumes
+
+#https://docs.docker.com/compose/compose-file/
+version: '3.8'
+
+services:
+  producerapp:
+    container_name: producerapp
+    build:
+      context: .
+      dockerfile: src/ProducerApp/Dockerfile
+    depends_on:
+      - rabbitmq
+    links: 
+      - rabbitmq
+
+  consumerapp:
+    container_name: consumerapp
+    build:
+      context: .
+      dockerfile: src/ConsumerApp/Dockerfile
+    depends_on:
+      - rabbitmq
+    links: 
+      - rabbitmq
+  
+  rabbitmq:
+    image: rabbitmq
+    container_name: rabbitmq
+    ports:
+    - "5672:5672"
+    - "15672:15672"
+    # environment:
+    #   - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER:-admin}
+    #   - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-admin}
+
+  # rabbitmq2:
+  #   image: rabbitmq
+  #   links:
+  #     - rabbitmq1
+  #   environment:
+  #     - CLUSTERED=true
+  #     - CLUSTER_WITH=rabbitmq1
+  #     - RAM_NODE=true
+  #   ports:
+  #     - "5673:5672"
+  #     - "15673:15672"
+
+  # rabbitmq3:
+  #   image: rabbitmq
+  #   links:
+  #     - rabbitmq1
+  #     - rabbitmq2
+  #   environment:
+  #     - CLUSTERED=true
+  #     - CLUSTER_WITH=rabbitmq1
+  #   ports:
+  #     - "5674:5672"
+
+  #jaegertracing/all-in-one   https://www.jaegertracing.io/docs/1.21/getting-started/
+  #openzipkin/zipkin          https://github.com/openzipkin-attic/docker-zipkin/blob/master/docker-compose.yml
