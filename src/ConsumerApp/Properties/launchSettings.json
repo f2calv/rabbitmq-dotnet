@@ -2,9 +2,6 @@
   "profiles": {
     "ConsumerApp": {
       "commandName": "Project"
-    },
-    "Docker": {
-      "commandName": "Docker"
     }
   }
 }
