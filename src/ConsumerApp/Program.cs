@@ -10,7 +10,7 @@ class Receive
     static async Task Main()
     {
         Console.Title = AppDomain.CurrentDomain.FriendlyName;
-        Console.WriteLine("Waiting for RabbitMQ to fully start...");
+        Console.WriteLine("Waiting 15 seconds for RabbitMQ to fully start...");
         await Task.Delay(15_000);//delay startup
         var factory = new ConnectionFactory() { HostName = "rabbitmq" };
         using (var connection = await factory.CreateConnectionAsync())
