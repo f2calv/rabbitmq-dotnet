@@ -11,17 +11,17 @@ class Program
         Console.WriteLine("Waiting for RabbitMQ to fully start...");
         await Task.Delay(5_000);//delay startup
         var factory = new ConnectionFactory() { HostName = "rabbitmq" };
-        using (var connection = factory.CreateConnection())
-        using (var channel = connection.CreateModel())
+        using (var connection = await factory.CreateConnectionAsync())
+        using (var channel = await connection.CreateChannelAsync())
         {
-            channel.QueueDeclare(queue: "hello", durable: false, exclusive: false, autoDelete: false, arguments: null);
+            await channel.QueueDeclareAsync(queue: "hello", durable: false, exclusive: false, autoDelete: false, arguments: null);
 
             while (true)
             {
                 string message = "Hello World!";
                 var body = Encoding.UTF8.GetBytes(message);
 
-                channel.BasicPublish(exchange: "", routingKey: "hello", basicProperties: null, body: body);
+                await channel.BasicPublishAsync(exchange: string.Empty, routingKey: "hello", body: body);
                 Console.WriteLine(" [x] Sent {0}", message);
                 await Task.Delay(1_000);//delay
             }
