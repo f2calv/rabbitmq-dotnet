@@ -1,5 +1,12 @@
 ﻿<Solution>
-  <Project Path="src/ConsumerApp/ConsumerApp.csproj" />
-  <Project Path="src/ProducerApp/ProducerApp.csproj" />
-  <Project Path="src/SharedLibrary/SharedLibrary.csproj" />
+  <Folder Name="/rabbitmq-dotnet/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/rabbitmq-dotnet/">
+    <Project Path="src/ConsumerApp/ConsumerApp.csproj" />
+    <Project Path="src/ProducerApp/ProducerApp.csproj" />
+    <Project Path="src/SharedLibrary/SharedLibrary.csproj" />
+  </Folder>
 </Solution>
