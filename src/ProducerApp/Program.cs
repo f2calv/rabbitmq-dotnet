@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 //https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/dotnet/Send/Send.cs
 class Program
 {
-    static async Task Main()
+    private static async Task Main()
     {
         Console.Title = AppDomain.CurrentDomain.FriendlyName;
         Console.WriteLine("Waiting 15 seconds for RabbitMQ to fully start...");
