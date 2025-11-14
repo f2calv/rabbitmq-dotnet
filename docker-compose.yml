@@ -1,9 +1,6 @@
 #clear out **absolutely everything**...
 #docker system prune -a -f --volumes
 
-#https://docs.docker.com/compose/compose-file/
-version: '3.8'
-
 services:
   producerapp:
     container_name: producerapp

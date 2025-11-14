@@ -1,6 +1,7 @@
-ARG BUILD_IMAGE=mcr.microsoft.com/dotnet/sdk:9.0
+ARG BUILD_IMAGE=mcr.microsoft.com/dotnet/sdk:10.0
 FROM $BUILD_IMAGE AS build
 WORKDIR /src
+COPY ["Directory.Build.props", "Directory.Packages.props", "./"]
 COPY ["src/ConsumerApp/ConsumerApp.csproj", "src/ConsumerApp/"]
 COPY ["src/SharedLibrary/SharedLibrary.csproj", "src/SharedLibrary/"]
 RUN dotnet restore "src/ConsumerApp/ConsumerApp.csproj"
@@ -11,7 +12,9 @@ RUN dotnet build "ConsumerApp.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "ConsumerApp.csproj" -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-alpine
+#FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS final #missing tzdata?
+#FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled AS final
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "ConsumerApp.dll"]
