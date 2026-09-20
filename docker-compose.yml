@@ -9,7 +9,7 @@ services:
       dockerfile: src/ProducerApp/Dockerfile
     depends_on:
       - rabbitmq
-    links: 
+    links:
       - rabbitmq
 
   consumerapp:
@@ -19,9 +19,9 @@ services:
       dockerfile: src/ConsumerApp/Dockerfile
     depends_on:
       - rabbitmq
-    links: 
+    links:
       - rabbitmq
-  
+
   rabbitmq:
     image: rabbitmq
     container_name: rabbitmq
