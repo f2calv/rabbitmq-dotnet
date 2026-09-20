@@ -1,5 +1,7 @@
 # RabbitMQ with .NET
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=f2calv_rabbitmq-dotnet&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=f2calv_rabbitmq-dotnet)
+
 A .NET playground for learning RabbitMQ producer and consumer patterns.
 
 ## Projects
