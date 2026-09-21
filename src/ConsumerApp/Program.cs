@@ -3,6 +3,9 @@ using RabbitMQ.Client.Events;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+
+namespace CasCap;
+
 //modified from;
 //https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/dotnet/Receive/Receive.cs
 class Receive
@@ -33,9 +36,6 @@ class Receive
                 await channel.BasicConsumeAsync(queue: "hello", autoAck: true, consumer: consumer);
                 await Task.Delay(5_000);//delay
             }
-
-            Console.WriteLine(" Press [enter] to exit.");
-            Console.ReadLine();
         }
     }
 }

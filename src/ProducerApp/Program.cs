@@ -2,6 +2,9 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
+
+namespace CasCap;
+
 //https://github.com/rabbitmq/rabbitmq-tutorials/blob/master/dotnet/Send/Send.cs
 class Program
 {
@@ -26,8 +29,5 @@ class Program
                 await Task.Delay(1_000);//delay
             }
         }
-
-        Console.WriteLine(" Press [enter] to exit.");
-        Console.ReadLine();
     }
 }
