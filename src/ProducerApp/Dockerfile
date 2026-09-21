@@ -15,4 +15,5 @@ RUN dotnet publish "ProducerApp.csproj" -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine
 WORKDIR /app
 COPY --from=publish /app/publish .
+USER $APP_UID
 ENTRYPOINT ["dotnet", "ProducerApp.dll"]
