@@ -1,59 +1,53 @@
-#clear out **absolutely everything**...
-#docker system prune -a -f --volumes
+# =============================================================================
+# Local RabbitMQ broker and the producer and consumer samples.
+#
+#   docker compose up -d                          the broker only
+#   docker compose --profile demo up --build      the broker plus both sample applications
+#
+# Endpoints:
+#   AMQP             : localhost:5672
+#   Management UI    : http://localhost:15672       guest / guest, the image's local-only default
+#
+# The samples connect to the host name `rabbitmq`, so they run inside this Compose network.
+# =============================================================================
 
 services:
+  rabbitmq:
+    image: rabbitmq:4.3-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "-q", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    restart: unless-stopped
+
   producerapp:
-    container_name: producerapp
+    profiles: [ demo ]
+    image: rabbitmq-dotnet-producerapp:compose
     build:
       context: .
       dockerfile: src/ProducerApp/Dockerfile
     depends_on:
-      - rabbitmq
-    links:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped
 
   consumerapp:
-    container_name: consumerapp
+    profiles: [ demo ]
+    image: rabbitmq-dotnet-consumerapp:compose
     build:
       context: .
       dockerfile: src/ConsumerApp/Dockerfile
     depends_on:
-      - rabbitmq
-    links:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped
 
-  rabbitmq:
-    image: rabbitmq
-    container_name: rabbitmq
-    ports:
-    - "5672:5672"
-    - "15672:15672"
-    # environment:
-    #   - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER:-admin}
-    #   - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS:-admin}
-
-  # rabbitmq2:
-  #   image: rabbitmq
-  #   links:
-  #     - rabbitmq1
-  #   environment:
-  #     - CLUSTERED=true
-  #     - CLUSTER_WITH=rabbitmq1
-  #     - RAM_NODE=true
-  #   ports:
-  #     - "5673:5672"
-  #     - "15673:15672"
-
-  # rabbitmq3:
-  #   image: rabbitmq
-  #   links:
-  #     - rabbitmq1
-  #     - rabbitmq2
-  #   environment:
-  #     - CLUSTERED=true
-  #     - CLUSTER_WITH=rabbitmq1
-  #   ports:
-  #     - "5674:5672"
-
-  #jaegertracing/all-in-one   https://www.jaegertracing.io/docs/1.21/getting-started/
-  #openzipkin/zipkin          https://github.com/openzipkin-attic/docker-zipkin/blob/master/docker-compose.yml
+volumes:
+  rabbitmq_data:
