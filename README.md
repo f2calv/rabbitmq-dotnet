@@ -19,14 +19,15 @@ A .NET playground for learning RabbitMQ producer and consumer patterns.
 
 ## Run locally
 
-The Compose stack builds both applications and starts RabbitMQ:
+Start the broker on its own, or together with both sample applications through the `demo` profile:
 
 ```pwsh
-docker compose up --build
+docker compose up -d
+docker compose --profile demo up --build
 ```
 
-The broker listens on `localhost:5672`; its management port is exposed on `localhost:15672` when the
-selected RabbitMQ image provides the management UI.
+The broker listens on `localhost:5672` and its management UI on `http://localhost:15672`. The samples
+connect to the host name `rabbitmq`, so they run inside the Compose network rather than from the IDE.
 
 To build without containers:
 
